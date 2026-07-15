@@ -4,8 +4,8 @@
   z-index: 99999;
   display: grid;
   place-items: center;
-  background: #050705;
-  color: #ccff00;
+  background: #ccff00;
+  color: #0b1108;
   font-family: "Space Grotesk", "JetBrains Mono", system-ui, sans-serif;
   overflow: hidden;
   transition: opacity 0.7s ease, visibility 0.7s ease;
@@ -17,19 +17,36 @@
   pointer-events: none;
 }
 
+/* Full-screen logo silhouette over fluor yellow */
 #th-splash::before {
   content: "";
   position: absolute;
-  inset: -20%;
-  background:
-    radial-gradient(ellipse 55% 45% at 50% 42%, rgba(204, 255, 0, 0.08), transparent 58%),
-    radial-gradient(circle at 50% 78%, rgba(204, 255, 0, 0.04), transparent 48%);
+  inset: 0;
+  z-index: 0;
+  background-color: #ccff00;
+  background-image: url("/logo.png?v=fluor1");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  /* High enough to read silhouette, still lets UI sit on top */
+  opacity: 0.92;
+  pointer-events: none;
+  transform: scale(1.08);
+}
+
+/* Light center fade only so loader/text stay readable */
+#th-splash::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(circle at 50% 48%, rgba(204, 255, 0, 0.35), rgba(204, 255, 0, 0) 52%);
   pointer-events: none;
 }
 
 .th-splash-inner {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -52,11 +69,10 @@
   height: 100%;
   object-fit: contain;
   background: transparent;
-  /* Keep original GIF colors — no filters */
-  filter: none;
   image-rendering: auto;
   user-select: none;
   pointer-events: none;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.2));
 }
 
 .th-brand {
@@ -69,11 +85,14 @@
   font-size: clamp(22px, 5vw, 28px);
   font-weight: 700;
   letter-spacing: -0.04em;
-  color: #f2f5ea;
+  color: #0b1108;
 }
 
 .th-brand strong span {
-  color: #ccff00;
+  color: #0b1108;
+  text-decoration: underline;
+  text-decoration-color: rgba(11, 17, 8, 0.35);
+  text-underline-offset: 4px;
 }
 
 .th-brand small {
@@ -81,7 +100,7 @@
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #6a7560;
+  color: rgba(11, 17, 8, 0.55);
 }
 
 .th-loader {
@@ -94,8 +113,8 @@
 .th-loader-track {
   height: 6px;
   border-radius: 999px;
-  background: #161c12;
-  border: 1px solid #232b1e;
+  background: rgba(11, 17, 8, 0.15);
+  border: 1px solid rgba(11, 17, 8, 0.25);
   overflow: hidden;
 }
 
@@ -103,8 +122,8 @@
   height: 100%;
   width: 0%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #9fcc00, #ccff00 55%, #eaff66);
-  box-shadow: 0 0 18px rgba(204, 255, 0, 0.55);
+  background: #0b1108;
+  box-shadow: 0 0 18px rgba(11, 17, 8, 0.25);
   transition: width 0.18s linear;
 }
 
@@ -113,10 +132,10 @@
   justify-content: space-between;
   font-family: "JetBrains Mono", monospace;
   font-size: 11px;
-  color: #aab5a0;
+  color: rgba(11, 17, 8, 0.65);
 }
 
 .th-loader-meta b {
-  color: #ccff00;
-  font-weight: 600;
+  color: #0b1108;
+  font-weight: 700;
 }
