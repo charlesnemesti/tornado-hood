@@ -13,89 +13,105 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 renderer.setClearColor(0x000000, 0);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-camera.position.set(0, 0.35, 5.4);
-camera.lookAt(0, -0.15, 0);
+const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+camera.position.set(0, 0.2, 5.8);
+camera.lookAt(0, -0.1, 0);
 
 const root = new THREE.Group();
 scene.add(root);
 
-const ambient = new THREE.AmbientLight(0x334411, 0.55);
-const key = new THREE.PointLight(YELLOW, 2.4, 20);
-key.position.set(2.2, 2.5, 3);
-const fill = new THREE.PointLight(YELLOW, 0.9, 16);
-fill.position.set(-2.5, -1.2, 2);
-scene.add(ambient, key, fill);
+scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+const key = new THREE.DirectionalLight(YELLOW, 1.4);
+key.position.set(3, 4, 5);
+const rim = new THREE.DirectionalLight(0x88aa00, 0.55);
+rim.position.set(-3, -1, -2);
+scene.add(key, rim);
 
 function funnelRadius(t) {
-  // t: 0 top -> 1 bottom
-  return 1.55 * Math.pow(1 - t, 1.35) + 0.06;
+  return 1.45 * Math.pow(1 - t, 1.28) + 0.05;
 }
+
+function makeShell(scale, opacity, emissive) {
+  const pts = [];
+  for (let i = 0; i <= 40; i++) {
+    const t = i / 40;
+    pts.push(new THREE.Vector2(funnelRadius(t) * scale, 1.65 - t * 3.35));
+  }
+  return new THREE.Mesh(
+    new THREE.LatheGeometry(pts, 96),
+    new THREE.MeshStandardMaterial({
+      color: YELLOW,
+      emissive: YELLOW,
+      emissiveIntensity: emissive,
+      metalness: 0.35,
+      roughness: 0.4,
+      transparent: true,
+      opacity,
+      side: THREE.DoubleSide,
+      depthWrite: false,
+    })
+  );
+}
+
+root.add(makeShell(1.0, 0.22, 0.2));
+root.add(makeShell(0.92, 0.12, 0.12));
 
 function makeHelix(turns, tube, phase, opacity) {
   const pts = [];
-  const segments = 220;
+  const segments = 180;
   for (let i = 0; i <= segments; i++) {
     const t = i / segments;
-    const y = 1.7 - t * 3.5;
-    const r = funnelRadius(t);
+    const y = 1.55 - t * 3.15;
+    const r = funnelRadius(t) * 0.96;
     const a = t * Math.PI * 2 * turns + phase;
     pts.push(new THREE.Vector3(Math.cos(a) * r, y, Math.sin(a) * r));
   }
   const curve = new THREE.CatmullRomCurve3(pts);
-  const geo = new THREE.TubeGeometry(curve, segments, tube, 8, false);
-  const mat = new THREE.MeshStandardMaterial({
-    color: YELLOW,
-    emissive: YELLOW,
-    emissiveIntensity: 0.85,
-    metalness: 0.2,
-    roughness: 0.35,
-    transparent: true,
-    opacity,
-  });
-  return new THREE.Mesh(geo, mat);
+  return new THREE.Mesh(
+    new THREE.TubeGeometry(curve, segments, tube, 10, false),
+    new THREE.MeshStandardMaterial({
+      color: YELLOW,
+      emissive: YELLOW,
+      emissiveIntensity: 0.55,
+      metalness: 0.25,
+      roughness: 0.32,
+      transparent: true,
+      opacity,
+    })
+  );
 }
 
-root.add(makeHelix(3.2, 0.045, 0, 0.95));
-root.add(makeHelix(3.2, 0.028, Math.PI * 0.7, 0.7));
-root.add(makeHelix(2.6, 0.02, Math.PI * 1.3, 0.55));
+root.add(makeHelix(2.4, 0.032, 0, 0.9));
+root.add(makeHelix(2.4, 0.018, Math.PI, 0.4));
 
-// Outer translucent funnel shell
-const shellPts = [];
-for (let i = 0; i <= 28; i++) {
-  const t = i / 28;
-  shellPts.push(new THREE.Vector2(funnelRadius(t) * 1.05, 1.7 - t * 3.5));
+// Clean accent rings (few, intentional)
+for (let i = 0; i < 5; i++) {
+  const t = 0.08 + i * 0.18;
+  const r = funnelRadius(t);
+  const y = 1.65 - t * 3.35;
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(r, 0.012, 12, 96),
+    new THREE.MeshBasicMaterial({
+      color: YELLOW,
+      transparent: true,
+      opacity: 0.55 - i * 0.07,
+    })
+  );
+  ring.rotation.x = Math.PI / 2;
+  ring.position.y = y;
+  root.add(ring);
 }
-const shell = new THREE.Mesh(
-  new THREE.LatheGeometry(shellPts, 64),
-  new THREE.MeshStandardMaterial({
-    color: YELLOW,
-    emissive: YELLOW,
-    emissiveIntensity: 0.25,
-    metalness: 0.1,
-    roughness: 0.55,
-    transparent: true,
-    opacity: 0.14,
-    side: THREE.DoubleSide,
-  })
-);
-root.add(shell);
 
-// Debris particles
-const COUNT = 900;
+// Sparse elegant orbit points — no additive sparkle soup
+const COUNT = 48;
 const positions = new Float32Array(COUNT * 3);
 const seeds = new Float32Array(COUNT);
 for (let i = 0; i < COUNT; i++) {
-  seeds[i] = Math.random();
-  const t = Math.random();
-  const y = 1.7 - t * 3.5;
-  const r = funnelRadius(t) * (0.75 + Math.random() * 0.55);
-  const a = Math.random() * Math.PI * 2;
-  positions[i * 3] = Math.cos(a) * r;
-  positions[i * 3 + 1] = y;
-  positions[i * 3 + 2] = Math.sin(a) * r;
+  seeds[i] = i / COUNT;
+  positions[i * 3 + 1] = 0;
 }
 const pGeo = new THREE.BufferGeometry();
 pGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
@@ -103,22 +119,26 @@ const particles = new THREE.Points(
   pGeo,
   new THREE.PointsMaterial({
     color: YELLOW,
-    size: 0.045,
+    size: 0.035,
     transparent: true,
-    opacity: 0.9,
+    opacity: 0.55,
     depthWrite: false,
-    blending: THREE.AdditiveBlending,
     sizeAttenuation: true,
   })
 );
 root.add(particles);
 
-// Tip glow sphere
 const tip = new THREE.Mesh(
-  new THREE.SphereGeometry(0.08, 16, 16),
-  new THREE.MeshBasicMaterial({ color: YELLOW })
+  new THREE.SphereGeometry(0.055, 24, 24),
+  new THREE.MeshStandardMaterial({
+    color: YELLOW,
+    emissive: YELLOW,
+    emissiveIntensity: 0.8,
+    metalness: 0.3,
+    roughness: 0.25,
+  })
 );
-tip.position.y = -1.82;
+tip.position.y = -1.72;
 root.add(tip);
 
 function resize() {
@@ -140,24 +160,20 @@ function animate() {
   raf = requestAnimationFrame(animate);
   const t = clock.getElapsedTime();
 
-  // Rotate on its own vertical axis
-  root.rotation.y = t * 1.85;
-  root.rotation.x = Math.sin(t * 0.4) * 0.06;
-  root.position.y = Math.sin(t * 1.2) * 0.05;
+  root.rotation.y = t * 1.15;
+  root.rotation.x = 0.08;
 
-  // Swirl debris around the funnel
   const attr = pGeo.getAttribute("position");
   for (let i = 0; i < COUNT; i++) {
     const seed = seeds[i];
-    const lift = ((t * (0.35 + seed * 0.55) + seed) % 1);
-    const y = 1.7 - lift * 3.5;
-    const r = funnelRadius(lift) * (0.8 + seed * 0.45);
-    const a = seed * Math.PI * 2 + t * (2.8 + seed * 2.2);
+    const lift = (seed + t * 0.12) % 1;
+    const y = 1.55 - lift * 3.15;
+    const r = funnelRadius(lift) * 1.02;
+    const a = seed * Math.PI * 2 + t * 1.4;
     attr.setXYZ(i, Math.cos(a) * r, y, Math.sin(a) * r);
   }
   attr.needsUpdate = true;
 
-  tip.scale.setScalar(1 + Math.sin(t * 6) * 0.18);
   renderer.render(scene, camera);
 }
 animate();
