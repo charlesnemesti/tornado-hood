@@ -52,8 +52,9 @@
   height: 100%;
   object-fit: contain;
   background: transparent;
-  /* No color filters — original art colors */
+  /* Keep original GIF colors — no filters */
   filter: none;
+  image-rendering: auto;
   user-select: none;
   pointer-events: none;
 }

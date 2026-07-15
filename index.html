@@ -9,7 +9,7 @@
     content="Tornado Hood — spin into the storm, exit as mist. Private mixes on Robinhood Chain. Born on PONS." />
   <title>Tornado Hood — Spin into the storm. Exit as mist.</title>
   <link rel="stylesheet" href="/fonts/fonts.css" />
-  <link rel="stylesheet" href="/splash.css?v=5" />
+  <link rel="stylesheet" href="/splash.css?v=6" />
   <script type="module" crossorigin src="/assets/index-DKZ06Cwq.js?v=tax2"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-BE_zVwBM.css?v=tax2">
 </head>
@@ -18,7 +18,7 @@
   <div id="th-splash" aria-busy="true" aria-live="polite">
     <div class="th-splash-inner">
       <div class="th-tornado-wrap" aria-hidden="true">
-        <img class="th-tornado-gif" src="/tornado.png" alt="" width="280" height="280" decoding="async" />
+        <img class="th-tornado-gif" src="/tornado.gif?v=real1" alt="" width="280" height="280" decoding="async" />
       </div>
 
       <div class="th-brand">
@@ -42,10 +42,12 @@
 
   <script>
     (function () {
+      var MIN_MS = 1500;
       var splash = document.getElementById('th-splash');
       var bar = document.getElementById('th-bar');
       var pct = document.getElementById('th-pct');
       var status = document.getElementById('th-status');
+      var img = document.querySelector('.th-tornado-gif');
       var steps = [
         'Initializing storm…',
         'Loading zk circuits…',
@@ -53,23 +55,31 @@
         'Opening the funnel…',
         'Exit as mist.'
       ];
-      var progress = 0;
+      var started = performance.now();
       var done = false;
 
       function setProgress(n) {
-        progress = Math.max(progress, Math.min(100, n));
-        bar.style.width = progress + '%';
-        pct.textContent = Math.round(progress) + '%';
-        var i = Math.min(steps.length - 1, Math.floor(progress / 25));
+        n = Math.max(0, Math.min(100, n));
+        bar.style.width = n + '%';
+        pct.textContent = Math.round(n) + '%';
+        var i = Math.min(steps.length - 1, Math.floor(n / 25));
         status.textContent = steps[i];
+      }
+
+      // Keep GIF decoding warm; reload if needed so animation starts
+      if (img) {
+        img.addEventListener('error', function () {
+          status.textContent = 'Storm asset missing…';
+        });
       }
 
       var tick = setInterval(function () {
         if (done) return;
-        var next = progress + (progress < 70 ? 1.8 : progress < 92 ? 1.0 : 0.35);
-        setProgress(next);
-        if (progress >= 100) finish();
-      }, 45);
+        var elapsed = performance.now() - started;
+        var p = (elapsed / MIN_MS) * 100;
+        setProgress(p);
+        if (elapsed >= MIN_MS) finish();
+      }, 32);
 
       function finish() {
         if (done) return;
@@ -82,11 +92,9 @@
           splash.setAttribute('aria-busy', 'false');
           setTimeout(function () {
             if (splash.parentNode) splash.parentNode.removeChild(splash);
-          }, 750);
-        }, 280);
+          }, 700);
+        }, 200);
       }
-
-      setTimeout(finish, 2600);
     })();
   </script>
 </body>
