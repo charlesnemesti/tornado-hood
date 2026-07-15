@@ -1,0 +1,8 @@
+{
+  "name": "tornado-hood",
+  "private": true,
+  "scripts": {
+    "dev": "npx --yes serve . -l 3456",
+    "start": "npx --yes serve . -l 3456"
+  }
+}
