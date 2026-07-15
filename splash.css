@@ -5,7 +5,7 @@
   display: grid;
   place-items: center;
   background: #ccff00;
-  color: #0b1108;
+  color: #f2f5ea;
   font-family: "Space Grotesk", "JetBrains Mono", system-ui, sans-serif;
   overflow: hidden;
   transition: opacity 0.7s ease, visibility 0.7s ease;
@@ -17,7 +17,7 @@
   pointer-events: none;
 }
 
-/* Full-screen logo silhouette over fluor yellow */
+/* Logo pulled way back (~1/3 size vs cover) over fluor yellow */
 #th-splash::before {
   content: "";
   position: absolute;
@@ -26,21 +26,20 @@
   background-color: #ccff00;
   background-image: url("/logo.png?v=fluor1");
   background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  /* High enough to read silhouette, still lets UI sit on top */
-  opacity: 0.92;
+  background-position: center 42%;
+  /* ~200% "further" = much smaller mark in the frame */
+  background-size: 33%;
+  opacity: 1;
   pointer-events: none;
-  transform: scale(1.08);
 }
 
-/* Light center fade only so loader/text stay readable */
+/* Dark translucent veil to soften the yellow ground */
 #th-splash::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: radial-gradient(circle at 50% 48%, rgba(204, 255, 0, 0.35), rgba(204, 255, 0, 0) 52%);
+  background: rgba(5, 7, 5, 0.55);
   pointer-events: none;
 }
 
@@ -85,14 +84,12 @@
   font-size: clamp(22px, 5vw, 28px);
   font-weight: 700;
   letter-spacing: -0.04em;
-  color: #0b1108;
+  color: #f2f5ea;
 }
 
 .th-brand strong span {
-  color: #0b1108;
-  text-decoration: underline;
-  text-decoration-color: rgba(11, 17, 8, 0.35);
-  text-underline-offset: 4px;
+  color: #ccff00;
+  text-decoration: none;
 }
 
 .th-brand small {
@@ -100,7 +97,7 @@
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(11, 17, 8, 0.55);
+  color: rgba(242, 245, 234, 0.55);
 }
 
 .th-loader {
@@ -113,8 +110,8 @@
 .th-loader-track {
   height: 6px;
   border-radius: 999px;
-  background: rgba(11, 17, 8, 0.15);
-  border: 1px solid rgba(11, 17, 8, 0.25);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(204, 255, 0, 0.25);
   overflow: hidden;
 }
 
@@ -122,8 +119,8 @@
   height: 100%;
   width: 0%;
   border-radius: inherit;
-  background: #0b1108;
-  box-shadow: 0 0 18px rgba(11, 17, 8, 0.25);
+  background: linear-gradient(90deg, #9fcc00, #ccff00 55%, #eaff66);
+  box-shadow: 0 0 18px rgba(204, 255, 0, 0.45);
   transition: width 0.18s linear;
 }
 
@@ -132,10 +129,10 @@
   justify-content: space-between;
   font-family: "JetBrains Mono", monospace;
   font-size: 11px;
-  color: rgba(11, 17, 8, 0.65);
+  color: rgba(242, 245, 234, 0.65);
 }
 
 .th-loader-meta b {
-  color: #0b1108;
+  color: #ccff00;
   font-weight: 700;
 }
