@@ -22,8 +22,8 @@
   position: absolute;
   inset: -20%;
   background:
-    radial-gradient(ellipse 55% 45% at 50% 42%, rgba(204, 255, 0, 0.14), transparent 58%),
-    radial-gradient(circle at 50% 78%, rgba(204, 255, 0, 0.07), transparent 48%);
+    radial-gradient(ellipse 55% 45% at 50% 42%, rgba(204, 255, 0, 0.1), transparent 58%),
+    radial-gradient(circle at 50% 78%, rgba(204, 255, 0, 0.05), transparent 48%);
   pointer-events: none;
 }
 
@@ -39,16 +39,29 @@
 }
 
 .th-tornado-wrap {
-  width: min(300px, 78vw);
-  height: min(300px, 78vw);
+  width: min(260px, 70vw);
+  height: min(260px, 70vw);
   position: relative;
+  display: grid;
+  place-items: center;
 }
 
-#th-tornado-canvas {
-  display: block;
+.th-tornado-gif {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 0 22px rgba(204, 255, 0, 0.22));
+  object-fit: contain;
+  /* Recolor grey funnel → project fluor yellow (keeps upright) */
+  filter:
+    grayscale(1)
+    brightness(1.25)
+    contrast(1.08)
+    sepia(1)
+    hue-rotate(18deg)
+    saturate(7)
+    brightness(1.12)
+    drop-shadow(0 0 20px rgba(204, 255, 0, 0.3));
+  user-select: none;
+  pointer-events: none;
 }
 
 .th-brand {

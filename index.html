@@ -9,7 +9,7 @@
     content="Tornado Hood — spin into the storm, exit as mist. Private mixes on Robinhood Chain. Born on PONS." />
   <title>Tornado Hood — Spin into the storm. Exit as mist.</title>
   <link rel="stylesheet" href="/fonts/fonts.css" />
-  <link rel="stylesheet" href="/splash.css?v=3" />
+  <link rel="stylesheet" href="/splash.css?v=4" />
   <script type="module" crossorigin src="/assets/index-DKZ06Cwq.js?v=tax2"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-BE_zVwBM.css?v=tax2">
 </head>
@@ -18,7 +18,7 @@
   <div id="th-splash" aria-busy="true" aria-live="polite">
     <div class="th-splash-inner">
       <div class="th-tornado-wrap" aria-hidden="true">
-        <canvas id="th-tornado-canvas"></canvas>
+        <img class="th-tornado-gif" src="/tornado.jpg" alt="" width="260" height="260" decoding="async" />
       </div>
 
       <div class="th-brand">
@@ -40,7 +40,6 @@
 
   <div id="root"></div>
 
-  <script type="module" src="/splash-tornado.js?v=3"></script>
   <script>
     (function () {
       var splash = document.getElementById('th-splash');
@@ -67,10 +66,10 @@
 
       var tick = setInterval(function () {
         if (done) return;
-        var next = progress + (progress < 70 ? 1.6 : progress < 92 ? 0.9 : 0.3);
+        var next = progress + (progress < 70 ? 1.8 : progress < 92 ? 1.0 : 0.35);
         setProgress(next);
         if (progress >= 100) finish();
-      }, 50);
+      }, 45);
 
       function finish() {
         if (done) return;
@@ -81,15 +80,13 @@
         setTimeout(function () {
           splash.classList.add('is-done');
           splash.setAttribute('aria-busy', 'false');
-          if (window.__thTornadoDispose) window.__thTornadoDispose();
           setTimeout(function () {
             if (splash.parentNode) splash.parentNode.removeChild(splash);
           }, 750);
-        }, 320);
+        }, 280);
       }
 
-      // Slightly longer so the 3D spin is visible
-      setTimeout(finish, 3200);
+      setTimeout(finish, 2600);
     })();
   </script>
 </body>
