@@ -1,0 +1,139 @@
+#th-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: grid;
+  place-items: center;
+  background: #050705;
+  color: #ccff00;
+  font-family: "Space Grotesk", "JetBrains Mono", system-ui, sans-serif;
+  overflow: hidden;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+#th-splash.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#th-splash::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 45%, rgba(204, 255, 0, 0.12), transparent 60%),
+    radial-gradient(circle at 50% 80%, rgba(204, 255, 0, 0.06), transparent 45%);
+  pointer-events: none;
+}
+
+.th-splash-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  width: min(320px, 84vw);
+  text-align: center;
+}
+
+.th-tornado-wrap {
+  width: min(220px, 56vw);
+  height: min(220px, 56vw);
+  position: relative;
+  filter: drop-shadow(0 0 28px rgba(204, 255, 0, 0.45));
+}
+
+.th-tornado {
+  width: 100%;
+  height: 100%;
+  animation: th-spin 2.8s linear infinite;
+  transform-origin: 50% 55%;
+}
+
+.th-tornado .ring {
+  fill: none;
+  stroke: #ccff00;
+  stroke-linecap: round;
+  opacity: 0.95;
+}
+
+.th-tornado .glow {
+  fill: #ccff00;
+  opacity: 0.35;
+}
+
+.th-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.th-brand strong {
+  font-size: clamp(22px, 5vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: #f2f5ea;
+}
+
+.th-brand strong span {
+  color: #ccff00;
+}
+
+.th-brand small {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6a7560;
+}
+
+.th-loader {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.th-loader-track {
+  height: 6px;
+  border-radius: 999px;
+  background: #161c12;
+  border: 1px solid #232b1e;
+  overflow: hidden;
+}
+
+.th-loader-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #9fcc00, #ccff00 55%, #eaff66);
+  box-shadow: 0 0 18px rgba(204, 255, 0, 0.55);
+  transition: width 0.18s linear;
+}
+
+.th-loader-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: #aab5a0;
+}
+
+.th-loader-meta b {
+  color: #ccff00;
+  font-weight: 600;
+}
+
+@keyframes th-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .th-tornado {
+    animation-duration: 8s;
+  }
+}
