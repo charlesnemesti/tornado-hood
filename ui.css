@@ -1,0 +1,147 @@
+/* Tornado Hood — hackathon polish layer */
+
+:root {
+  --th-header-h: 68px;
+  --accent: #ccff00;
+  --accent-bright: #eaff66;
+  --bg: #050705;
+  --ink: #f2f5ea;
+  --mute: #6a7560;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -8%, rgba(204, 255, 0, 0.1), transparent 55%),
+    radial-gradient(circle at 92% 18%, rgba(204, 255, 0, 0.05), transparent 28%),
+    radial-gradient(circle at 8% 70%, rgba(120, 160, 40, 0.06), transparent 30%),
+    #050705 !important;
+  background-attachment: fixed !important;
+}
+
+/* Room for fixed header */
+#root {
+  padding-top: var(--th-header-h);
+  min-height: 100vh;
+}
+
+/* Soft film grain */
+body::after {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* Fixed app header polish */
+nav.th-app-header {
+  animation: th-header-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+nav.th-app-header a:not(.th-x-btn) {
+  transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+}
+
+nav.th-app-header a:not(.th-x-btn):hover {
+  color: #ccff00 !important;
+  transform: translateY(-1px);
+}
+
+.th-x-btn {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease !important;
+}
+
+.th-x-btn:hover {
+  transform: translateY(-1px) scale(1.02);
+  background: #eaff66 !important;
+  box-shadow: 0 0 32px rgba(204, 255, 0, 0.4) !important;
+  color: #0b1108 !important;
+}
+
+@keyframes th-header-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Accent scanline under header */
+nav.th-app-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ccff00 20%, #eaff66 50%, #ccff00 80%, transparent);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Selection */
+::selection {
+  background: rgba(204, 255, 0, 0.28);
+  color: #f2f5ea;
+}
+
+/* Live panel / cards subtle lift when possible */
+#root button {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+#root button:hover {
+  filter: brightness(1.03);
+}
+
+/* Scrollbar already themed — sharpen */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#2a3524, #1c2417) !important;
+  border: 1px solid #2f3b28;
+}
+
+/* Footer / copy feel */
+#root a[href^="https://x.com"] {
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+/* Hood points cards — sweeter glass */
+.hood-points-main,
+.hood-points-side {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(204, 255, 0, 0.06);
+}
+
+.hood-points-button {
+  box-shadow: 0 0 28px rgba(204, 255, 0, 0.22);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hood-points-button:hover {
+  box-shadow: 0 0 40px rgba(204, 255, 0, 0.38);
+}
+
+/* Mobile header denser */
+@media (max-width: 560px) {
+  :root {
+    --th-header-h: 62px;
+  }
+
+  .th-x-btn {
+    letter-spacing: 0 !important;
+  }
+}
+
+/* Splash stays above ui */
+#th-splash {
+  z-index: 99999;
+}
