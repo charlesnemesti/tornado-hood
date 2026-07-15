@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docs — Tornado Hood</title>
+  <meta name="description" content="How Tornado Hood works: private mixes, StormPoints, wallet login, and fees on Robinhood Chain." />
+  <link rel="icon" type="image/png" href="/logo.png?v=fluor1" />
+  <link rel="stylesheet" href="/fonts/fonts.css" />
+  <link rel="stylesheet" href="/docs.css?v=1" />
+</head>
+<body>
+  <header class="docs-top">
+    <a class="docs-brand" href="/">
+      <img src="/logo.png?v=fluor1" alt="Tornado Hood" />
+      Tornado <span>Hood</span>
+    </a>
+    <nav class="docs-nav">
+      <a href="/">App</a>
+      <a class="is-active" href="/docs">Docs</a>
+      <a href="https://x.com/TornadoHoodRH" target="_blank" rel="noopener noreferrer">X</a>
+      <a href="/#swap">Enter the storm</a>
+    </nav>
+  </header>
+
+  <div class="docs-shell">
+    <aside class="docs-side">
+      <a href="#overview">Overview</a>
+      <a href="#how">How it works</a>
+      <a href="#wallet">Wallet login</a>
+      <a href="#fees">Fees &amp; tax</a>
+      <a href="#points">StormPoints</a>
+      <a href="#safety">Safety notes</a>
+      <a href="#faq">FAQ</a>
+    </aside>
+
+    <main class="docs-main">
+      <section class="docs-hero" id="overview">
+        <div class="docs-kicker">Documentation</div>
+        <h1>Spin into the storm.<br />Exit as mist.</h1>
+        <p>
+          Tornado Hood is a privacy mixer for Robinhood Chain. Deposit from wallet A,
+          join an anonymity funnel of identical deposits, then withdraw to a fresh wallet B
+          — with no on-chain link between the two.
+        </p>
+        <div class="docs-cta">
+          <a class="primary" href="/">Open app →</a>
+          <a class="ghost" href="#how">Read the flow</a>
+        </div>
+      </section>
+
+      <section class="docs-card" id="how">
+        <h2>How it works</h2>
+        <p>
+          The protocol breaks the deposit→withdraw trail using fixed-denomination pools and
+          zk-style proofs. From the outside, every note in a pool looks the same.
+        </p>
+        <div class="docs-grid">
+          <div class="docs-step">
+            <strong>01 · ENTER</strong>
+            <p>Send ETH into a storm pool. You receive a secret note — the only key to your funds. Tornado Hood never custodies them.</p>
+          </div>
+          <div class="docs-step">
+            <strong>02 · SPIN</strong>
+            <p>Your deposit joins thousands of identical ones. Proofs show you own a deposit without revealing which one.</p>
+          </div>
+          <div class="docs-step">
+            <strong>03 · EXIT</strong>
+            <p>Redeem your note to any fresh Robinhood-chain address. A relayer can pay gas so the new wallet starts with zero history.</p>
+          </div>
+        </div>
+        <div class="docs-note">
+          Tip: always withdraw to a brand-new wallet that has never interacted with your deposit address.
+        </div>
+      </section>
+
+      <section class="docs-card" id="wallet">
+        <h2>Wallet login</h2>
+        <p>
+          Use <strong style="color:#f2f5ea">Connect Wallet</strong> in the header. Tornado Hood asks your browser wallet
+          (MetaMask, Rabby, Coinbase Wallet, etc.) for an account, then optionally signs a short login message
+          so only you can claim that session.
+        </p>
+        <h3>What we store</h3>
+        <ul>
+          <li>Your connected address (local session)</li>
+          <li>A signature payload for StormPoints / account UI</li>
+          <li>No password. No seed phrase. Ever.</li>
+        </ul>
+        <h3>Networks</h3>
+        <p>
+          Primary target: <strong style="color:#f2f5ea">Robinhood Chain</strong>. If your wallet is on another network,
+          the app will prompt you to switch when on-chain actions are available.
+        </p>
+      </section>
+
+      <section class="docs-card" id="fees">
+        <h2>Fees &amp; tax</h2>
+        <p>
+          The swap preview applies a <strong style="color:#f2f5ea">2% tax</strong> on the amount you enter.
+        </p>
+        <ul>
+          <li><strong style="color:#f2f5ea">YOU ENTER 1 ETH</strong> → Tax 0.02 → <strong style="color:#ccff00">YOU EXIT 0.98 ETH</strong></li>
+          <li>Displayed estimates update live as you type</li>
+          <li>Token contract address (CA) is <strong style="color:#ccff00">TBA</strong> until launch</li>
+        </ul>
+        <div class="docs-note">
+          Preview numbers are for UI clarity. Final on-chain settlement will follow the live contract once the CA is published.
+        </div>
+      </section>
+
+      <section class="docs-card" id="points">
+        <h2>StormPoints</h2>
+        <p>
+          Connect before you mix to earn StormPoints. Roughly <strong style="color:#f2f5ea">1 point per ~$1</strong> mixed.
+          Points are loyalty credits for the community — not a cash balance and not withdrawable as ETH.
+        </p>
+      </section>
+
+      <section class="docs-card" id="safety">
+        <h2>Safety notes</h2>
+        <ul>
+          <li>Double-check the withdraw address. Wrong address = unrecoverable funds.</li>
+          <li>Guard your secret note like a private key.</li>
+          <li>Prefer a fresh exit wallet with no prior history.</li>
+          <li>This product is experimental DeFi software. Use at your own risk.</li>
+          <li>Privacy tools may be restricted in your jurisdiction — know your local laws.</li>
+        </ul>
+      </section>
+
+      <section class="docs-card" id="faq">
+        <h2>FAQ</h2>
+        <h3>Is Tornado Hood custodial?</h3>
+        <p>No. Funds sit in the pool circuit; your note is the claim. We don’t ask for seed phrases.</p>
+        <h3>Where did this launch?</h3>
+        <p>Born on <strong style="color:#f2f5ea">PONS</strong>, built for Robinhood Chain.</p>
+        <h3>Where’s the CA?</h3>
+        <p>Shown as <strong style="color:#ccff00">TBA</strong> in the app until the token is live. We’ll publish it in-app and on X.</p>
+        <h3>Where do I ask questions?</h3>
+        <p><a href="https://x.com/TornadoHoodRH" target="_blank" rel="noopener noreferrer">@TornadoHoodRH</a></p>
+        <div class="docs-cta">
+          <a class="primary" href="/">Back to the app</a>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

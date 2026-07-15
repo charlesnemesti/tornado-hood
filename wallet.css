@@ -1,0 +1,137 @@
+.th-wallet-slot {
+  position: fixed;
+  top: 14px;
+  right: clamp(16px, 4vw, 48px);
+  z-index: 95;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.th-wallet-slot > * {
+  pointer-events: auto;
+}
+
+.th-wallet-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: 1px solid #ccff00;
+  background: #ccff00;
+  color: #0b1108;
+  font: 700 12px "JetBrains Mono", monospace;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow: 0 0 24px rgba(204, 255, 0, 0.28);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.th-wallet-btn:hover {
+  transform: translateY(-1px);
+  background: #eaff66;
+  box-shadow: 0 0 34px rgba(204, 255, 0, 0.4);
+}
+
+.th-wallet-btn.is-connected {
+  background: rgba(5, 7, 5, 0.85);
+  color: #ccff00;
+  border-color: rgba(204, 255, 0, 0.45);
+  backdrop-filter: blur(12px);
+}
+
+.th-wallet-btn .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ccff00;
+  box-shadow: 0 0 8px #ccff00;
+}
+
+.th-wallet-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 220px;
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(204, 255, 0, 0.22);
+  background: rgba(10, 13, 9, 0.96);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  display: none;
+}
+
+.th-wallet-menu.is-open {
+  display: grid;
+  gap: 6px;
+}
+
+.th-wallet-menu button {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #f2f5ea;
+  font: 600 12px "JetBrains Mono", monospace;
+  cursor: pointer;
+}
+
+.th-wallet-menu button:hover {
+  background: rgba(204, 255, 0, 0.08);
+  border-color: rgba(204, 255, 0, 0.2);
+  color: #ccff00;
+}
+
+.th-wallet-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%) translateY(20px);
+  z-index: 120;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(204, 255, 0, 0.35);
+  background: rgba(10, 13, 9, 0.95);
+  color: #f2f5ea;
+  font: 600 12px "JetBrains Mono", monospace;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.th-wallet-toast.is-on {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Hide native username LOG IN once wallet UI is present */
+body.th-wallet-ready nav.th-app-header button[style*="background"] {
+  /* keep native as fallback on tiny screens if needed */
+}
+
+@media (max-width: 720px) {
+  .th-wallet-slot {
+    top: auto;
+    bottom: 18px;
+    right: 16px;
+    left: 16px;
+    justify-content: stretch;
+  }
+
+  .th-wallet-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .th-wallet-menu {
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: calc(100% + 8px);
+  }
+}
